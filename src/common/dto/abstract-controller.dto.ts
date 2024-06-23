@@ -69,4 +69,14 @@ export abstract class AbstractController {
       `Es necesario que esté autenticado para consumir este recurso.`
     )
   }
+  //fernando
+  errorRespuesta( message: string) {
+    const body = {
+      finalizado: false,
+      codigo: 412,
+      mensaje: message,
+    }
+    logger.debug('[response] body = ', body)
+    return body
+  }
 }

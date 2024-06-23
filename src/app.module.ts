@@ -1,17 +1,17 @@
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 
 import packageJson from '../package.json';
 
-import { CoreModule } from './core/core.module';
-import { LoggerModule } from './core/logger';
 import { AppController } from './app.controller';
 import { ApplicationModule } from './application/application.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TimeoutInterceptor } from './common/interceptors';
 import { LoggerMiddleware } from './common/middlewares';
+import { CoreModule } from './core/core.module';
+import { LoggerModule } from './core/logger';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 @Module({
   imports: [
