@@ -13,6 +13,8 @@ import { CrearAntecedenteDto } from '../dto/crear-antecedente.dto';
 import { Antecedentes } from '../entity/antecedentes.entity';
 import { nroDocumento } from '../../../common/validation/nro-documento.validator';
 import { FiltroAvanzadoEsaviDto } from '../dto/filtro-avanzado-esavis.dto';
+import { Cie10 } from '../entity/lista_cie.entity';
+import { Liname } from '../entity/lista_liname.entity';
 
 @Injectable()
 export class EsavisRepository {
@@ -148,11 +150,12 @@ export class EsavisRepository {
   }
 
   async actualizaresavi(esaviDto: ActualizarEsaviDto) {
-    const repo = this.dataSource.getRepository(Esavi);
+console.log(esaviDto);
+try {
+  const repo = this.dataSource.getRepository(Esavi);
     const datosActualizar = {
       cualCuadro: esaviDto?.cualCuadro,
-      // fum: esaviDto?.fum,
-      sintomas: esaviDto?.sintomas,
+      fum: esaviDto?.fum,
       fechaSintomas: esaviDto?.fechaSintomas,
       desenlaceEsavi: esaviDto?.desenlaceEsavi,
       profesionNoti: esaviDto?.profesionNoti,
@@ -169,6 +172,11 @@ export class EsavisRepository {
 
     const obteneresavi = await this.buscarunesaviporID(esaviDto.id as string);
     return obteneresavi;
+    // return "";
+} catch (error) {
+  console.log(error);
+}
+    
   }
 
   async filtroesavisavanzado(paginacionQueryDto: FiltroAvanzadoEsaviDto) {
@@ -183,7 +191,7 @@ export class EsavisRepository {
       segundoApellido,
       nroDocumento,
     } = paginacionQueryDto;
-    console.log(paginacionQueryDto);
+
     const query = this.dataSource
       .getRepository(Esavi)
       .createQueryBuilder('esavi')
@@ -205,7 +213,6 @@ export class EsavisRepository {
         'antece.sintomaDescri',
         'antece.medicamentoDescri',
       ])
-            // .where('usuarioRol.estado = :estado', { estado: UsuarioRolEstado.ACTIVE })
       // .take(limite)
       // .skip(saltar);
 
@@ -263,9 +270,6 @@ export class EsavisRepository {
         });
       }
     }
-    // else {
-    //   query.where('1 = 1');
-    // }
     return await query.getManyAndCount();
   }
   async buscarUnEsaviId(id: string) {
@@ -278,4 +282,21 @@ export class EsavisRepository {
       .where('esavi.id = :ides', { ides: id })
       .getOne();
   }
+//paralos listado
+  async obteneCieporDescripcion(descrip: string) {
+    return await this.dataSource
+      .getRepository(Cie10)
+      .createQueryBuilder('cie_10')
+      .where('LOWER(cie_10.descripcion) like LOWER(:ides)', { ides: `%${descrip}%` })
+      .getMany();
+  }
+
+  async obteneLinameporDescripcion(descrip: string) {
+    return await this.dataSource
+      .getRepository(Liname)
+      .createQueryBuilder('liname')
+      .where('LOWER(liname.medicamento) like LOWER(:ides)', { ides: `%${descrip}%` })
+      .getMany();
+  }
+
 }

@@ -1,5 +1,6 @@
 import { BaseController } from '@/common/base';
 import {
+  HttpStatus,
   Inject,
   Injectable,
   PreconditionFailedException,
@@ -12,6 +13,8 @@ import { EsavisRepository } from '../repository';
 import { ActualizarEsaviDto } from '../dto/actualizar-esavi.dto';
 import { FiltroAvanzadoEsaviDto } from '../dto/filtro-avanzado-esavis.dto';
 import { ParamIdDto } from '@/common/dto/params-id.dto';
+import { RpcException } from '@nestjs/microservices';
+import { Messages } from '@/common/constants/response-messages';
 
 @Injectable()
 export class EsavisService extends BaseController {
@@ -27,12 +30,10 @@ export class EsavisService extends BaseController {
       esaviDto.vacunaId as string,
     );
     if (esaviexiste) {
-      // const body = {
-      //   finalizado: false,
-      //   mensaje: 'Ya existe un ESAVI referente a la vacuna del paciente.',
-      //   codigo: 412
-      // }
-      // return body;
+      // throw new RpcException({
+      //   message: "Ya existe un ESAVI referente a la vacuna del paciente.",
+      //   status: HttpStatus.BAD_REQUEST,
+      // });
       return this.errorRespuesta(
         'Ya existe un ESAVI referente a la vacuna del paciente.',
       );
@@ -73,42 +74,29 @@ export class EsavisService extends BaseController {
     } catch (error) {}
   }
 
-  // async actualizar(
-  //   persona: ActualizarEsaviDto,
-  // ) {
-  //   const { usuarios, ...info } = persona;
-  //   const datospersonaActualizar = new Persona({
-  //     ...info,
-  //   });
-  //   await (
-  //     transaction?.getRepository(Persona) ??
-  //     this.dataSource.getRepository(Persona)
-  //   )
-  //     .createQueryBuilder()
-  //     .update(Persona)
-  //     .set(datospersonaActualizar)
-  //     .where('id = :idd', {
-  //       idd: persona.id,
-  //     })
-  //     .execute();
-  //   const updatedPersona = await this.buscarPersonaIdconRoles(
-  //     persona.id as string,
-  //   );
-  //   console.log(updatedPersona);
-
-  //   return updatedPersona;
-  // }
+  async actualizaresaviservice(esavi: ActualizarEsaviDto) {
+    const esavaactu = await this.esavisRepositorio.actualizaresavi(esavi);
+    return this.successUpdate(esavaactu);
+  }
 
   async filtroEsaviavanzadoservice(filtro: FiltroAvanzadoEsaviDto) {
-    console.log(filtro);
     const personains =
       await this.esavisRepositorio.filtroesavisavanzado(filtro);
     return this.successListRows(personains);
-  }  
+  }
 
   async obtenerUnesaviIdservice(idesavi: string) {
-    const personains =
-      await this.esavisRepositorio.buscarUnEsaviId(idesavi);
+    const personains = await this.esavisRepositorio.buscarUnEsaviId(idesavi);
     return this.success(personains);
+  }
+  async obtenerListaCieservice(nombre: string) {
+    const personains =
+      await this.esavisRepositorio.obteneCieporDescripcion(nombre);
+    return this.successList(personains);
+  }
+  async obtenerListaLinameservice(nombre: string) {
+    const personains =
+      await this.esavisRepositorio.obteneLinameporDescripcion(nombre);
+    return this.successList(personains);
   }
 }

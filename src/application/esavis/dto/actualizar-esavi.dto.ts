@@ -1,11 +1,9 @@
-import {
-    IsNotEmpty,
-    IsOptional
-} from '@/common/validation';
+import { IsNotEmpty, IsOptional } from '@/common/validation';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class ActualizarEsaviDto {
+  @ApiProperty({ example: '12' })
   @IsNotEmpty()
   id: string;
 
@@ -18,29 +16,23 @@ export class ActualizarEsaviDto {
   @IsOptional()
   fum?: Date | '';
 
-  @ApiPropertyOptional({ example: 'ASDF' })
-  @IsOptional()
-  @IsString()
-  sintomas?: string;
-
-  @ApiPropertyOptional({ example: '2024-04-05' })
+  @ApiPropertyOptional({ example: '2024-04-05 10:05' })
   @IsOptional()
   fechaSintomas?: string;
 
-  @ApiPropertyOptional({ example: 'ASDDAS' })
+  @ApiPropertyOptional({ example: '1' })
   @IsOptional()
   @IsString()
-  desenlaceEsavi?: string ;
+  desenlaceEsavi?: string;
 
-  @ApiPropertyOptional({ example: 'ADASD' })
+  @ApiPropertyOptional({ example: '1' })
   @IsOptional()
-  @IsString()
   profesionNoti?: string;
 
   @ApiPropertyOptional({ example: 'PABLO' })
   @IsOptional()
   @IsString()
-  nombresNoti?: string ;
+  nombresNoti?: string;
 
   @ApiPropertyOptional({ example: 'NUEVO' })
   @IsOptional()
@@ -50,7 +42,7 @@ export class ActualizarEsaviDto {
   @ApiPropertyOptional({ example: 'OTRO' })
   @IsOptional()
   @IsString()
-  segundoApellidoNoti?: string ;
+  segundoApellidoNoti?: string;
 
   @ApiPropertyOptional({ example: '77855561' })
   @IsOptional()
@@ -66,13 +58,13 @@ export class ActualizarEsaviDto {
   @IsString()
   nroDocumentoNoti?: string;
 
-  @ApiPropertyOptional({ example: 'asdasd' })
+  @ApiPropertyOptional({ example: '1' })
   @IsOptional()
   @IsString()
   instanciaClasi?: string;
 
-  @ApiPropertyOptional({ example: 'asdas' })
+  @ApiPropertyOptional({ example: '1' })
   @IsOptional()
-  @IsString()                                                
+  @IsString()
   clasifiFinal?: string;
 }

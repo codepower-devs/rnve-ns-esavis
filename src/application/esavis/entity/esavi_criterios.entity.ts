@@ -1,15 +1,13 @@
 
 import dotenv from 'dotenv'
 import {
-    Check,
-    Column,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    PrimaryGeneratedColumn
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { Esavi } from './esavi.entity'
-import { CriterioGravedad } from './criterio-gravedad.entity'
 
   
   dotenv.config()
