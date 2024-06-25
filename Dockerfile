@@ -1,5 +1,5 @@
 # Base image
-FROM node:18-alpine
+FROM node:20-alpine
 
 RUN node -v
 
@@ -25,4 +25,4 @@ RUN npm run build
 # EXPOSE 3000
 
 # Start the server using the production build
-CMD ["npm", "run", "start:qas"]
+CMD ["npm", "run", "start:dev"]

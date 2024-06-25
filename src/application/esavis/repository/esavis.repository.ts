@@ -197,7 +197,7 @@ try {
       .createQueryBuilder('esavi')
       .innerJoinAndSelect('esavi.esavicriterios', 'criterios')
       .innerJoinAndSelect('esavi.esavisintomas', 'sintomas')
-      .innerJoinAndSelect('esavi.antecendentes', 'antece')
+      // .innerJoinAndSelect('esavi.antecendentes', 'antece')
       .select([
         'esavi.caseId',
         'esavi.nombres',
@@ -209,9 +209,6 @@ try {
         'sintomas.id',
         'sintomas.cieAlfa',
         'sintomas.cieDescripcion',
-        'antece.id',
-        'antece.sintomaDescri',
-        'antece.medicamentoDescri',
       ])
       // .take(limite)
       // .skip(saltar);
@@ -245,27 +242,27 @@ try {
 
     if (avanzado) {
       if (caseId && caseId.length > 0) {
-        query.orWhere('esavi.caseId ilike :aa', {
+        query.andWhere('esavi.caseId ilike :aa', {
           aa: `%${caseId}%`,
         });
       }
       if (nombres && nombres.length > 0) {
-        query.orWhere('esavi.nombres ilike :bb', {
+        query.andWhere('esavi.nombres ilike :bb', {
           bb: `%${nombres}%`,
         });
       }
       if (primerApellido && primerApellido.length > 0) {
-        query.orWhere('esavi.primerApellido ilike :cc', {
+        query.andWhere('esavi.primerApellido ilike :cc', {
           cc: `%${primerApellido}%`,
         });
       }
       if (segundoApellido && segundoApellido.length > 0) {
-        query.orWhere('esavi.segundoApellido ilike :dd', {
+        query.andWhere('esavi.segundoApellido ilike :dd', {
           dd: `%${segundoApellido}%`,
         });
       }
       if (nroDocumento && nroDocumento.length > 0) {
-        query.orWhere('esavi.nroDocumento ilike :dd', {
+        query.andWhere('esavi.nroDocumento ilike :dd', {
           dd: `%${nroDocumento}%`,
         });
       }
