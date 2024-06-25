@@ -16,7 +16,7 @@ RUN npm install
 COPY . .
 
 # env variables
-ENV NODE_ENV development
+ENV NODE_ENV quality
 
 # Creates a "dist" folder with the production build
 RUN npm run build
@@ -25,4 +25,4 @@ RUN npm run build
 # EXPOSE 3000
 
 # Start the server using the production build
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start:qas"]

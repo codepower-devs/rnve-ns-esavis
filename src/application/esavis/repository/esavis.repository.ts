@@ -191,13 +191,13 @@ try {
       segundoApellido,
       nroDocumento,
     } = paginacionQueryDto;
-
+console.log(paginacionQueryDto);
     const query = this.dataSource
       .getRepository(Esavi)
       .createQueryBuilder('esavi')
       .innerJoinAndSelect('esavi.esavicriterios', 'criterios')
       .innerJoinAndSelect('esavi.esavisintomas', 'sintomas')
-      // .innerJoinAndSelect('esavi.antecendentes', 'antece')
+      .leftJoinAndSelect('esavi.antecendentes', 'antece')
       .select([
         'esavi.caseId',
         'esavi.nombres',
@@ -270,12 +270,13 @@ try {
     return await query.getManyAndCount();
   }
   async buscarUnEsaviId(id: string) {
+    console.log(id);
     return await this.dataSource
       .getRepository(Esavi)
       .createQueryBuilder('esavi')
       .innerJoinAndSelect('esavi.esavicriterios', 'criterios')
       .innerJoinAndSelect('esavi.esavisintomas', 'sintomas')
-      .innerJoinAndSelect('esavi.antecendentes', 'antece')
+      .leftJoinAndSelect('esavi.antecendentes', 'antece')
       .where('esavi.id = :ides', { ides: id })
       .getOne();
   }
